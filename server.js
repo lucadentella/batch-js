@@ -1,15 +1,19 @@
-const http = require('http');
+if(process.env.EXITCODE == undefined) process.exitCode = 2;
+else process.exitCode = process.env.EXITCODE;
 
-const hostname = '0.0.0.0';
-const port = 8080;
+if(process.env.DURATION == undefined) duration = 10;
+else duration = process.env.DURATION;
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.write('This is a batch job');
-  res.end();
-});
+var i = 0;
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+console.log('Running batch for ' + duration + ' seconds, with exit code ' + process.exitCode); 
+
+var myfunc = setInterval(function() {
+
+    i = i + 1;
+    console.log('Hello World at '+ 2*i + ' seconds'); 
+
+    if(i == duration / 2) {
+        clearInterval(myfunc);
+    }
+}, 2000);
